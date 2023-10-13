@@ -28,7 +28,7 @@ eye_cascade = cv2.CascadeClassifier(eye_cascade_xml_path)
 # Ouvrez la capture vidéo de la caméra (0 est généralement la caméra par défaut)
 capture = cv2.VideoCapture(0)
 
-eyes_opened = True  # Les yeux sont initialement ouverts
+eyes_opened = False  # Les yeux sont initialement fermés
 
 while True:
     ret, frame = capture.read()
@@ -51,9 +51,15 @@ while True:
         # Si au moins un œil est détecté, les yeux sont ouverts
         if len(eyes) > 0:
             eyes_opened = True
+            # Affichez "Yeux ouverts" en vert
+            cv2.putText(frame, "Yeux ouverts", (x, y - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         else:
             # Si aucun œil n'est détecté, les yeux sont fermés
             eyes_opened = False
+            # Affichez "Yeux fermés" en rouge
+            cv2.putText(frame, "Yeux fermes", (x, y - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
     # Si les yeux sont fermés, déclenchez l'alerte sonore
     if not eyes_opened:
